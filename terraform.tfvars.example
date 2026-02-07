@@ -1,0 +1,23 @@
+# ============================================================================
+# terraform.tfvars.example
+# Copiar a terraform.tfvars y completar con valores reales
+# ============================================================================
+
+# ID del proyecto en GCP (REQUERIDO)
+project_id = "tu-proyecto-gcp"
+
+# Región donde se desplegará la infraestructura
+region = "us-central1"
+
+# Zona específica para el cluster GKE
+zone = "us-central1-a"
+
+# Ambiente de despliegue (dev, staging, prod)
+environment = "dev"
+
+project_nickname = "project-nickname"
+
+
+# Contraseña para la base de datos PostgreSQL (REQUERIDO)
+# Se recomienda usar un gestor de secretos en producción
+db_password = "tu_password_seguro_aqui"

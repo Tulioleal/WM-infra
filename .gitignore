@@ -1,0 +1,36 @@
+# Terraform
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# OpenTofu
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS
+Thumbs.db
+.env
+.env.local
+
+# Logs
+*.log
+crash.log
+
+# Local overrides
+local.tfvars
+*.auto.tfvars
