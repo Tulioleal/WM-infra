@@ -1,0 +1,108 @@
+# ============================================================================
+# CI/CD - Infraestructura (OpenTofu)
+# ============================================================================
+#
+# Flujo:
+#   1. Push a main → tofu plan (automático)
+#   2. Revisás el plan en el PR/Actions
+#   3. Aprobás manualmente → tofu apply
+#
+# Autenticación:
+#   Usa Workload Identity Federation (WIF) — sin keys JSON.
+#   El token OIDC de GitHub se intercambia por credenciales temporales
+#   de la SA ci-infra@waste-detection-001.iam.gserviceaccount.com
+#
+# ============================================================================
+
+name: Infrastructure
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Permisos necesarios para WIF
+permissions:
+  contents: read
+  id-token: write  # Requerido para generar el OIDC token
+
+env:
+  TOFU_VERSION: "1.8.0"
+  WORKLOAD_IDENTITY_PROVIDER: "projects/${{ secrets.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider"
+  SERVICE_ACCOUNT: "ci-infra@waste-detection-001.iam.gserviceaccount.com"
+
+jobs:
+  # ================================================================
+  # Job 1: Plan - Se ejecuta en cada push/PR
+  # ================================================================
+  plan:
+    name: Tofu Plan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.SERVICE_ACCOUNT }}
+
+      - name: Setup OpenTofu
+        uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: ${{ env.TOFU_VERSION }}
+
+      - name: Tofu Init
+        run: tofu init
+
+      - name: Tofu Validate
+        run: tofu validate
+
+      - name: Tofu Plan
+        run: tofu plan -out=plan.tfplan
+
+      - name: Upload Plan
+        uses: actions/upload-artifact@v4
+        with:
+          name: tfplan
+          path: plan.tfplan
+          retention-days: 7
+
+  # ================================================================
+  # Job 2: Apply - Solo en main, requiere aprobación manual
+  # ================================================================
+  apply:
+    name: Tofu Apply
+    runs-on: ubuntu-latest
+    needs: plan
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production  # ← Requiere aprobación manual en GitHub
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ env.SERVICE_ACCOUNT }}
+
+      - name: Setup OpenTofu
+        uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: ${{ env.TOFU_VERSION }}
+
+      - name: Tofu Init
+        run: tofu init
+
+      - name: Download Plan
+        uses: actions/download-artifact@v4
+        with:
+          name: tfplan
+
+      - name: Tofu Apply
+        run: tofu apply plan.tfplan
