@@ -62,7 +62,7 @@ jobs:
         run: tofu validate
 
       - name: Tofu Plan
-        run: tofu plan -out=plan.tfplan
+        run: tofu plan -var="db_password=${{ secrets.DB_PASSWORD }}" -out=plan.tfplan
 
       - name: Upload Plan
         uses: actions/upload-artifact@v4
