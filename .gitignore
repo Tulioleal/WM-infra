@@ -1,7 +1,6 @@
 # Terraform
 *.tfstate
 *.tfstate.*
-*.tfvars
 *.tfvars.json
 override.tf
 override.tf.json

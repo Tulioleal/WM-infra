@@ -1,5 +1,4 @@
-# terraform.tfvars.example
-# Copiar a terraform.tfvars y completar valores sensibles
+# Variables de configuración no sensibles.
 # Los secretos se inyectan vía GitHub Secrets en CI/CD
 
 # ID del proyecto en GCP
@@ -15,6 +14,3 @@ zone = "us-central1-a"
 environment = "prod"
 
 project_nickname = "waste-detection"
-
-# Contraseña para la base de datos PostgreSQL
-db_password = "CHANGE_ME"
