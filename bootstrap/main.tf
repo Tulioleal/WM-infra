@@ -171,3 +171,18 @@ resource "google_service_account_iam_member" "wif_training" {
   role               = "roles/iam.workloadIdentityUser"
   member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.github.name}/attribute.repository/${var.github_owner}/WM-training"
 }
+
+# APIs
+resource "google_project_service" "bootstrap_apis" {
+  for_each = toset([
+    "cloudresourcemanager.googleapis.com",
+    "iam.googleapis.com",
+    "iamcredentials.googleapis.com",
+    "sts.googleapis.com",
+  ])
+
+  project = var.project_id
+  service = each.value
+
+  disable_on_destroy = false
+}
