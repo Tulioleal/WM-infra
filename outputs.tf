@@ -40,7 +40,7 @@ output "database_private_ip" {
 
 output "artifact_registry" {
   description = "URL del Artifact Registry"
-  value       = "${var.region}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.docker_repo.repository_id}"
+  value       = "${var.region}-docker.pkg.${var.environment}/${var.project_id}/${google_artifact_registry_repository.docker_repo.repository_id}"
 }
 
 output "service_account_email" {

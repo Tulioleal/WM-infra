@@ -101,7 +101,7 @@ resource "google_compute_firewall" "gke_master_to_nodes" {
     "35.184.76.126/32"    # Control plane de tu cluster
   ]
 
-  target_tags = ["gke-waste-detection-cluster-dev-12e86875-node"]
+  target_tags = ["gke-waste-detection-cluster-${var.environment}-12e86875-node"]
 
   description = "Permite comunicación del control plane GKE a los nodos"
 }

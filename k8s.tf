@@ -1,0 +1,35 @@
+# ============================================================================
+# Kubernetes Resources - Valores que dependen de la infraestructura
+# ============================================================================
+
+# Namespace
+resource "kubernetes_namespace" "waste_detection" {
+  metadata {
+    name = "waste-detection"
+  }
+}
+
+# ConfigMap con valores de infraestructura
+resource "kubernetes_config_map" "infra_config" {
+  metadata {
+    name      = "infra-config"
+    namespace = kubernetes_namespace.waste_detection.metadata[0].name
+  }
+
+  data = {
+    GCS_MODELS_BUCKET = google_storage_bucket.models.name
+    GCS_IMAGES_BUCKET = google_storage_bucket.inference_images.name
+  }
+}
+
+# Secret con credenciales de la base de datos
+resource "kubernetes_secret" "db_credentials" {
+  metadata {
+    name      = "db-credentials"
+    namespace = kubernetes_namespace.waste_detection.metadata[0].name
+  }
+
+  data = {
+    DATABASE_URL = "postgresql://app_user:${var.db_password}@${google_sql_database_instance.postgres.private_ip_address}:5432/waste_detection"
+  }
+}
