@@ -33,3 +33,13 @@ resource "kubernetes_secret_v1" "db_credentials" {
     DATABASE_URL = "postgresql://app_user:${var.db_password}@${google_sql_database_instance.postgres.private_ip_address}:5432/${var.project_nickname}"
   }
 }
+
+resource "kubernetes_service_account_v1" "app_sa" {
+  metadata {
+    name      = "waste-detection-app-sa"
+    namespace = kubernetes_namespace_v1.waste_detection.metadata[0].name
+    annotations = {
+      "iam.gke.io/gcp-service-account" = google_service_account.app_sa.email
+    }
+  }
+}
