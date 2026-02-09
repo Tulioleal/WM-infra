@@ -64,6 +64,7 @@ resource "google_service_networking_connection" "private_vpc_connection" {
   reserved_peering_ranges = [google_compute_global_address.private_ip_range.name]
 
   update_on_creation_fail = true
+  deletion_policy = "ABANDON"
 
   lifecycle {
     prevent_destroy = false
