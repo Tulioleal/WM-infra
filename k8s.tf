@@ -43,3 +43,16 @@ resource "kubernetes_service_account_v1" "app_sa" {
     }
   }
 }
+
+resource "kubernetes_config_map_v1" "infra_config" {
+  metadata {
+    name      = "infra-config"
+    namespace = kubernetes_namespace_v1.waste_detection.metadata[0].name
+  }
+
+  data = {
+    GCS_MODELS_BUCKET   = google_storage_bucket.models.name
+    GCS_IMAGES_BUCKET   = google_storage_bucket.inference_images.name
+    GCS_DATASETS_BUCKET = google_storage_bucket.datasets.name
+  }
+}
