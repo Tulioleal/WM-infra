@@ -17,3 +17,9 @@ variable "github_owner" {
   type        = string
   description = "GitHub username or organization that owns the repos."
 }
+
+variable "github_app_repos" {
+  type        = list(string)
+  description = "Repos de app que usan ci-app SA"
+  default     = ["WM-inference-api", "WM-frontend", "WM-training"]
+}

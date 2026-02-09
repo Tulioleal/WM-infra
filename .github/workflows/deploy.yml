@@ -30,7 +30,7 @@ permissions:
 env:
   TOFU_VERSION: "1.8.0"
   WORKLOAD_IDENTITY_PROVIDER: "projects/${{ secrets.GCP_PROJECT_NUMBER }}/locations/global/workloadIdentityPools/github-actions-pool/providers/github-provider"
-  SERVICE_ACCOUNT: "ci-infra@waste-detection-001.iam.gserviceaccount.com"
+  SERVICE_ACCOUNT: ${{ secrets.CI_SERVICE_ACCOUNT }}
 
 jobs:
   # ================================================================
