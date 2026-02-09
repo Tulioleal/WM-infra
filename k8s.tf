@@ -5,7 +5,7 @@
 # Namespace
 resource "kubernetes_namespace" "waste_detection" {
   metadata {
-    name = "waste-detection"
+    name = var.project_nickname
   }
 }
 
@@ -30,6 +30,6 @@ resource "kubernetes_secret" "db_credentials" {
   }
 
   data = {
-    DATABASE_URL = "postgresql://app_user:${var.db_password}@${google_sql_database_instance.postgres.private_ip_address}:5432/waste_detection"
+    DATABASE_URL = "postgresql://app_user:${var.db_password}@${google_sql_database_instance.postgres.private_ip_address}:5432/${var.project_nickname}"
   }
 }
