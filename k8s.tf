@@ -31,7 +31,7 @@ resource "kubernetes_secret_v1" "db_credentials" {
   }
 
   data = {
-    DATABASE_URL = "postgresql://app_user:${var.db_password}@${google_sql_database_instance.postgres.private_ip_address}:5432/${var.project_nickname}"
+    DATABASE_URL = "postgresql://app_user:${var.db_password}@${google_sql_database_instance.postgres.private_ip_address}:5432/waste_detection"
   }
 }
 
