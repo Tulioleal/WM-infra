@@ -108,7 +108,7 @@ resource "google_container_node_pool" "training_pool" {
   }
   
   node_config {
-    preemptible  = true
+    preemptible  = false
     service_account = google_service_account.gke_nodes.email
     machine_type = "n1-standard-4"  # 4 vCPU, 15 GB RAM
     disk_size_gb = 100
