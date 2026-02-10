@@ -34,3 +34,6 @@ crash.log
 # Local overrides
 local.tfvars
 *.auto.tfvars
+
+# model files
+*.pt
