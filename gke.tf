@@ -108,15 +108,16 @@ resource "google_container_node_pool" "training_pool" {
   }
   
   node_config {
-    preemptible  = false
+    preemptible  = false // esto deberia ser true para reducir costos, pero las GPU preemptibles pueden ser inestables para entrenamiento, para efectos practicos lo dejamos en false
     service_account = google_service_account.gke_nodes.email
-    machine_type = "n1-standard-4"  # 4 vCPU, 15 GB RAM
+    // cambiar a n1-standard-4 y tesla t4 para entrenamiento pero hay poca disponibilidad, por eso usamos e2-standard-4s
+    machine_type = "g2-standard-4"  # 4 vCPU, 15 GB RAM
     disk_size_gb = 100
     disk_type    = "pd-ssd"
     
     # GPU Tesla T4 para entrenamiento
     guest_accelerator {
-      type  = "nvidia-tesla-t4"
+      type  = "nvidia-l4"
       count = 1
       gpu_driver_installation_config {
         gpu_driver_version = "LATEST"
