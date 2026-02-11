@@ -3,8 +3,7 @@ resource "google_project_service" "bootstrap_apis" {
     "cloudresourcemanager.googleapis.com",
     "iam.googleapis.com",
     "iamcredentials.googleapis.com",
-    "sts.googleapis.com",
-    "aiplatform.googleapis.com"
+    "sts.googleapis.com"
   ])
 
   project = var.project_id

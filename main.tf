@@ -54,6 +54,7 @@ resource "google_project_service" "apis" {
     "cloudbuild.googleapis.com",
     "monitoring.googleapis.com",
     "logging.googleapis.com",
+    "aiplatform.googleapis.com"
   ])
   
   project            = var.project_id
