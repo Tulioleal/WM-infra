@@ -4,6 +4,7 @@ resource "google_project_service" "bootstrap_apis" {
     "iam.googleapis.com",
     "iamcredentials.googleapis.com",
     "sts.googleapis.com",
+    "aiplatform.googleapis.com"
   ])
 
   project = var.project_id

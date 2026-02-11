@@ -36,6 +36,7 @@ resource "google_project_iam_member" "ci_app_roles" {
     "roles/artifactregistry.writer",
     "roles/container.developer",
     "roles/container.clusterViewer",
+    "roles/aiplatform.user"
   ])
 
   project = var.project_id
