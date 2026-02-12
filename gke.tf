@@ -57,7 +57,7 @@ resource "google_container_node_pool" "inference_pool" {
   location   = var.zone
   cluster    = google_container_cluster.primary.name
   
-  initial_node_count = 2
+  initial_node_count = 1
   
   autoscaling {
     min_node_count = 1
@@ -65,11 +65,11 @@ resource "google_container_node_pool" "inference_pool" {
   }
   
   node_config {
-    preemptible  = true  # Usar máquinas preemptibles para reducir costos
+    spot         = true  # Ideal para modelos rápidos de procesar
     service_account = google_service_account.gke_nodes.email
-    machine_type = "e2-standard-4"  # 4 vCPU, 16 GB RAM
+    machine_type = "e2-standard-2" # 2 vCPU y 8GB es balanceado y más barato
     disk_size_gb = 50
-    disk_type    = "pd-standard"
+    disk_type    = "pd-balanced" #meojr velocidad de inicio del nodo
     
     oauth_scopes = [
       "https://www.googleapis.com/auth/cloud-platform"
