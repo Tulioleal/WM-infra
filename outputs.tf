@@ -18,11 +18,6 @@ output "models_bucket" {
   value       = google_storage_bucket.models.name
 }
 
-output "datasets_bucket" {
-  description = "Nombre del bucket para datasets"
-  value       = google_storage_bucket.datasets.name
-}
-
 output "images_bucket" {
   description = "Nombre del bucket para imágenes"
   value       = google_storage_bucket.inference_images.name

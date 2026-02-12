@@ -14,12 +14,6 @@ resource "google_storage_bucket_iam_member" "models_access" {
   member = "serviceAccount:${google_service_account.app_sa.email}"
 }
 
-resource "google_storage_bucket_iam_member" "datasets_access" {
-  bucket = google_storage_bucket.datasets.name
-  role   = "roles/storage.objectViewer"
-  member = "serviceAccount:${google_service_account.app_sa.email}"
-}
-
 resource "google_storage_bucket_iam_member" "images_access" {
   bucket = google_storage_bucket.inference_images.name
   role   = "roles/storage.objectAdmin"

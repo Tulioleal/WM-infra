@@ -19,7 +19,6 @@ resource "kubernetes_config_map_v1" "infra_config" {
   data = {
     GCS_MODELS_BUCKET   = google_storage_bucket.models.name
     GCS_IMAGES_BUCKET   = google_storage_bucket.inference_images.name
-    GCS_DATASETS_BUCKET = google_storage_bucket.datasets.name
   }
 }
 

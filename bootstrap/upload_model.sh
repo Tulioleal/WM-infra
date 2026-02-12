@@ -8,7 +8,7 @@
 set -e
 
 # Configuración
-BUCKET="waste-detection-001-waste-detection-models-prod"
+BUCKET="waste-detection-001-waste-detection-models-prod" # Cambia al nombre de tu bucket
 
 # Verificar argumentos
 if [ -z "$1" ]; then
